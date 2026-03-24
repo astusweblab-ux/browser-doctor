@@ -13,15 +13,56 @@ const refreshBtn = document.getElementById('refresh-btn');
 const notifyTestBtn = document.getElementById('notify-test-btn');
 const healthBadge = document.getElementById('health-badge');
 const refreshIcon = document.getElementById('refresh-icon');
+const resizeHandle = document.getElementById('resize-handle');
 
 let totalMemoryBytes = 0;
 let currentHeavyTabs = [];
 const selectedTabIds = new Set();
+const SIZE_STORAGE_KEY = 'browserDoctorPopupSize';
+const POPUP_MIN_WIDTH = 340;
+const POPUP_MAX_WIDTH = 800;
+const POPUP_MIN_HEIGHT = 520;
+const POPUP_MAX_HEIGHT = 900;
+const DEFAULT_POPUP_WIDTH = 400;
+const DEFAULT_POPUP_HEIGHT = 680;
 
 /* ---- UTILS ---- */
 function mb(bytes) {
   if (!bytes) return 0;
   return Math.round(bytes / (1024 * 1024));
+}
+
+function clamp(value, min, max) {
+  return Math.min(max, Math.max(min, value));
+}
+
+function applyPopupSize(width, height) {
+  const normalizedWidth = clamp(Math.round(width), POPUP_MIN_WIDTH, POPUP_MAX_WIDTH);
+  const normalizedHeight = clamp(Math.round(height), POPUP_MIN_HEIGHT, POPUP_MAX_HEIGHT);
+
+  document.documentElement.style.setProperty('--popup-width', `${normalizedWidth}px`);
+  document.documentElement.style.setProperty('--popup-height', `${normalizedHeight}px`);
+
+  return { width: normalizedWidth, height: normalizedHeight };
+}
+
+function loadPopupSize() {
+  try {
+    const raw = localStorage.getItem(SIZE_STORAGE_KEY);
+    if (!raw) return applyPopupSize(DEFAULT_POPUP_WIDTH, DEFAULT_POPUP_HEIGHT);
+    const parsed = JSON.parse(raw);
+    return applyPopupSize(parsed.width, parsed.height);
+  } catch {
+    return applyPopupSize(DEFAULT_POPUP_WIDTH, DEFAULT_POPUP_HEIGHT);
+  }
+}
+
+function savePopupSize(size) {
+  try {
+    localStorage.setItem(SIZE_STORAGE_KEY, JSON.stringify(size));
+  } catch {
+    // Ignore storage errors in popup context.
+  }
 }
 
 function formatCpu(value) {
@@ -679,6 +720,42 @@ async function optimize() {
   await closeTabs(toClose);
 }
 
+function initResize() {
+  const initial = loadPopupSize();
+  let currentSize = { ...initial };
+
+  if (!resizeHandle) return;
+
+  let dragState = null;
+
+  const onMouseMove = (event) => {
+    if (!dragState) return;
+    const width = dragState.startWidth + (event.clientX - dragState.startX);
+    const height = dragState.startHeight + (event.clientY - dragState.startY);
+    currentSize = applyPopupSize(width, height);
+  };
+
+  const onMouseUp = () => {
+    if (!dragState) return;
+    dragState = null;
+    savePopupSize(currentSize);
+    window.removeEventListener('mousemove', onMouseMove);
+    window.removeEventListener('mouseup', onMouseUp);
+  };
+
+  resizeHandle.addEventListener('mousedown', (event) => {
+    event.preventDefault();
+    dragState = {
+      startX: event.clientX,
+      startY: event.clientY,
+      startWidth: window.innerWidth,
+      startHeight: window.innerHeight
+    };
+    window.addEventListener('mousemove', onMouseMove);
+    window.addEventListener('mouseup', onMouseUp);
+  });
+}
+
 /* ---- REFRESH ---- */
 let isRefreshing = false;
 
@@ -741,4 +818,5 @@ notifyTestBtn.addEventListener('click', async () => {
 });
 
 /* ---- START ---- */
+initResize();
 refresh();

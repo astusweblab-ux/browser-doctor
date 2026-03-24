@@ -1,5 +1,11 @@
 # Changelog
 
+## 1.0.5 - 2026-03-24
+
+- Added manual popup resizing by dragging the bottom-right corner handle
+- Persisted popup size between openings
+- Updated footer layout so buttons never overlap the version text
+
 ## 1.0.4 - 2026-03-24
 
 - Added ASTUS LAB branding in extension metadata and popup UI
