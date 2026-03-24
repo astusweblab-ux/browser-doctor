@@ -1,5 +1,9 @@
 # Changelog
 
+## 1.0.5 - 2026-03-24
+
+- Increased popup base size (wider and taller) for better readability
+
 ## 1.0.4 - 2026-03-24
 
 - Added ASTUS LAB branding in extension metadata and popup UI
