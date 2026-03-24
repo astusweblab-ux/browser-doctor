@@ -1,6 +1,7 @@
 # Browser Doctor
 
 Browser Doctor is a Chrome extension that helps users diagnose browser slowdowns, find heavy tabs/extensions, and free resources quickly.
+Created by ASTUS LAB.
 
 ## Features
 

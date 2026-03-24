@@ -1,8 +1,8 @@
 {
   "manifest_version": 3,
   "name": "Browser Doctor",
-  "version": "1.0.3",
-  "description": "Диагностика и оптимизация браузера. Узнайте, почему тормозит Chrome, и исправьте это одним кликом.",
+  "version": "1.0.4",
+  "description": "Диагностика и оптимизация браузера. Узнайте, почему тормозит Chrome, и исправьте это одним кликом. Создано ASTUS LAB.",
   "permissions": [
     "tabs",
     "storage",

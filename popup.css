@@ -70,6 +70,14 @@ body {
   color: var(--accent);
 }
 
+.logo-subtext {
+  font-family: var(--mono);
+  font-size: 8px;
+  letter-spacing: 0.08em;
+  color: var(--text-muted);
+  margin-top: 2px;
+}
+
 .health-badge {
   display: flex;
   align-items: center;
