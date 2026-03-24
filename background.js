@@ -197,12 +197,36 @@ async function showTestNotification(text) {
   return { success: true, notified: true };
 }
 
+async function configureSidePanelBehavior() {
+  if (!chrome.sidePanel || !chrome.sidePanel.setPanelBehavior) return;
+  try {
+    await chrome.sidePanel.setPanelBehavior({ openPanelOnActionClick: true });
+  } catch (err) {
+    console.warn('Browser Doctor side panel behavior setup failed:', err);
+  }
+}
+
 chrome.runtime.onInstalled.addListener(() => {
   initIfNeeded().catch((err) => console.error('Browser Doctor init error:', err));
+  configureSidePanelBehavior().catch((err) => console.error('Browser Doctor side panel init error:', err));
 });
 
 chrome.runtime.onStartup.addListener(() => {
   initIfNeeded().catch((err) => console.error('Browser Doctor startup init error:', err));
+  configureSidePanelBehavior().catch((err) => console.error('Browser Doctor side panel startup error:', err));
+});
+
+chrome.action.onClicked.addListener(async (tab) => {
+  if (!chrome.sidePanel || !chrome.sidePanel.open) return;
+  try {
+    if (tab && tab.id) {
+      await chrome.sidePanel.open({ tabId: tab.id });
+    } else {
+      await chrome.sidePanel.open({});
+    }
+  } catch (err) {
+    console.warn('Browser Doctor side panel open failed:', err);
+  }
 });
 
 chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {

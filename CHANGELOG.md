@@ -1,5 +1,11 @@
 # Changelog
 
+## 1.0.6 - 2026-03-24
+
+- Switched Browser Doctor from popup mode to Chrome Side Panel mode
+- Action icon now opens the Side Panel (same approach as ai-assistant-extension)
+- Updated layout for full-height side panel and fixed footer behavior on narrow widths
+
 ## 1.0.5 - 2026-03-24
 
 - Increased popup base size (wider and taller) for better readability

@@ -5,7 +5,7 @@ Created by ASTUS LAB.
 
 ## Features
 
-- Quick diagnostics from popup in one click
+- Quick diagnostics from Chrome Side Panel in one click
 - Heavy tab analysis by RAM and CPU score
 - Extension list with resource hints
 - Actionable recommendations for cleanup
