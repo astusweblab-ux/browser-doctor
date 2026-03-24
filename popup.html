@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Browser Doctor</title>
+  <link rel="stylesheet" href="popup.css">
+</head>
+<body>
+  <div class="app">
+
+    <!-- Header -->
+    <header class="header">
+      <div class="header-left">
+        <div class="logo-mark">
+          <svg width="28" height="28" viewBox="0 0 28 28" fill="none">
+            <circle cx="14" cy="14" r="13" stroke="var(--accent)" stroke-width="1.5"/>
+            <path d="M9 14C9 11.24 11.24 9 14 9C16.76 9 19 11.24 19 14" stroke="var(--accent)" stroke-width="1.5" stroke-linecap="round"/>
+            <circle cx="14" cy="14" r="2.5" fill="var(--accent)"/>
+            <path d="M14 16.5V20" stroke="var(--accent)" stroke-width="1.5" stroke-linecap="round"/>
+            <path d="M7 14H5M23 14H21" stroke="var(--accent)" stroke-width="1.5" stroke-linecap="round"/>
+          </svg>
+        </div>
+        <div>
+          <div class="logo-text">BROWSER<br>DOCTOR</div>
+        </div>
+      </div>
+      <div class="health-badge" id="health-badge">
+        <span class="health-dot"></span>
+        <span class="health-label">Анализ...</span>
+      </div>
+    </header>
+
+    <!-- Pulse line -->
+    <div class="pulse-bar">
+      <svg class="pulse-svg" viewBox="0 0 380 32" preserveAspectRatio="none">
+        <polyline id="pulse-line" points="0,16 40,16 55,4 65,28 75,4 85,20 95,16 380,16" 
+          fill="none" stroke="var(--accent)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+      </svg>
+    </div>
+
+    <!-- Main stats -->
+    <div class="stats-row">
+      <div class="stat-block">
+        <div class="stat-num" id="memory-used">—</div>
+        <div class="stat-unit">MB</div>
+        <div class="stat-desc">памяти</div>
+      </div>
+      <div class="stat-divider"></div>
+      <div class="stat-block">
+        <div class="stat-num" id="tabs-count">—</div>
+        <div class="stat-unit">шт</div>
+        <div class="stat-desc">вкладок</div>
+      </div>
+      <div class="stat-divider"></div>
+      <div class="stat-block">
+        <div class="stat-num" id="ext-count">—</div>
+        <div class="stat-unit">шт</div>
+        <div class="stat-desc">расширений</div>
+      </div>
+    </div>
+
+    <!-- Sections -->
+    <main class="main">
+
+      <!-- Heavy tabs -->
+      <section class="panel">
+        <div class="panel-head">
+          <span class="panel-label">НАГРУЗКА</span>
+          <button id="optimize-btn" class="action-btn">
+            <svg width="12" height="12" viewBox="0 0 12 12" fill="none">
+              <path d="M6 1L7.5 4.5H11L8.5 6.5L9.5 10L6 8L2.5 10L3.5 6.5L1 4.5H4.5L6 1Z" fill="currentColor"/>
+            </svg>
+            Оптимизировать
+          </button>
+        </div>
+        <div class="panel-subhead">Отметьте вкладки для закрытия</div>
+        <div id="heavy-tabs" class="tab-list">
+          <div class="placeholder">
+            <span class="spin">◌</span> Сканирование...
+          </div>
+        </div>
+      </section>
+
+      <!-- Recommendations -->
+      <section class="panel">
+        <div class="panel-head">
+          <span class="panel-label">РЕКОМЕНДАЦИИ</span>
+        </div>
+        <div id="recommendations" class="rec-list">
+          <div class="placeholder"><span class="spin">◌</span> Анализ...</div>
+        </div>
+      </section>
+
+      <!-- Extensions -->
+      <section class="panel">
+        <div class="panel-head">
+          <span class="panel-label">РАСШИРЕНИЯ</span>
+        </div>
+        <div id="ext-list" class="ext-list">
+          <div class="placeholder"><span class="spin">◌</span> Загрузка...</div>
+        </div>
+      </section>
+
+      <!-- Daily stats -->
+      <section class="panel panel-stats">
+        <div class="panel-head">
+          <span class="panel-label">ИСТОРИЯ</span>
+        </div>
+        <div class="history-wrap">
+          <div class="history-block">
+            <div class="history-title">Сегодня</div>
+            <div id="daily-stats" class="day-grid">
+              <div class="placeholder"><span class="spin">◌</span></div>
+            </div>
+          </div>
+          <div class="history-block">
+            <div class="history-title">7 дней</div>
+            <div id="weekly-stats" class="day-grid">
+              <div class="placeholder"><span class="spin">◌</span></div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+    </main>
+
+    <!-- Footer -->
+    <footer class="footer">
+      <div class="footer-actions">
+        <button id="refresh-btn" class="refresh-btn">
+          <svg id="refresh-icon" width="14" height="14" viewBox="0 0 14 14" fill="none">
+            <path d="M2 7C2 4.24 4.24 2 7 2C9.1 2 10.9 3.2 11.7 5M12 7C12 9.76 9.76 12 7 12C4.9 12 3.1 10.8 2.3 9" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
+            <path d="M12 2.5V5H9.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+            <path d="M2 11.5V9H4.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+          Обновить
+        </button>
+        <button id="notify-test-btn" class="refresh-btn test-btn">Проверить оповещение</button>
+      </div>
+      <span class="footer-version">v1.0.3</span>
+    </footer>
+
+  </div>
+  <script src="popup.js"></script>
+</body>
+</html>

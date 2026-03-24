@@ -1,0 +1,14 @@
+# Ignore OS/editor noise
+.DS_Store
+Thumbs.db
+Desktop.ini
+
+# Build output
+dist/
+
+# Logs
+*.log
+
+# IDE
+.vscode/
+.idea/
