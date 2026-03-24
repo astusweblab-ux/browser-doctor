@@ -1,5 +1,10 @@
 # Changelog
 
+## 1.0.7 - 2026-03-24
+
+- Improved vertical scrolling in Side Panel so all sections are reachable
+- Added body-level scroll fallback and smoother scrolling behavior
+
 ## 1.0.6 - 2026-03-24
 
 - Switched Browser Doctor from popup mode to Chrome Side Panel mode
