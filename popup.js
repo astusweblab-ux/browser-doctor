@@ -60,13 +60,10 @@ function normalizeName(name) {
     .trim();
 }
 
-function getFaviconUrl(url) {
-  try {
-    const host = new URL(url).hostname;
-    return `https://www.google.com/s2/favicons?domain=${host}&sz=16`;
-  } catch {
-    return null;
-  }
+function getFaviconUrl(tab) {
+  const raw = String(tab?.favIconUrl || '').trim();
+  if (!raw) return null;
+  return raw;
 }
 
 function hashString(str) {
@@ -443,7 +440,7 @@ function renderHeavyTabs(heavyTabs) {
 
   heavyTabsEl.innerHTML = '';
   for (const tab of heavyTabs) {
-    const faviconUrl = getFaviconUrl(tab.url);
+    const faviconUrl = getFaviconUrl(tab);
     const memoryText = `${mb(tab.memory)} MB`;
     const cpuText = `${formatCpu(tab.cpu)}% CPU`;
     const isSelected = selectedTabIds.has(tab.id);
